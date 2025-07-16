@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pipeline de Datos - Plataforma de Cómics</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #eef2f7;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1300px;
+      margin: auto;
+      padding: 40px;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2.7em;
+      margin-bottom: 40px;
+      color: #333;
+    }
+
+    .pipeline {
+      display: flex;
+      flex-direction: column;
+      gap: 50px;
+    }
+
+    .layer {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 25px;
+      position: relative;
+    }
+
+    .component {
+      min-width: 220px;
+      max-width: 320px;
+      flex: 1;
+      padding: 20px;
+      border-radius: 15px;
+      color: #fff;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .component:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+    }
+
+    .component-title {
+      font-size: 1.4em;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .component-desc {
+      font-size: 0.95em;
+      opacity: 0.95;
+      line-height: 1.5;
+    }
+
+    .frontend { background: linear-gradient(135deg, #3b82f6, #60a5fa); }
+    .backend  { background: linear-gradient(135deg, #10b981, #34d399); }
+    .kafka    { background: linear-gradient(135deg, #f59e0b, #fbbf24); color: #222; }
+    .spark    { background: linear-gradient(135deg, #ef4444, #f87171); }
+    .storage  { background: linear-gradient(135deg, #8b5cf6, #a78bfa); }
+    .search   { background: linear-gradient(135deg, #ec4899, #f472b6); }
+
+    .kafka-topics {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .kafka-topic {
+      background: rgba(255, 255, 255, 0.2);
+      color: #111;
+      padding: 6px 14px;
+      font-size: 0.85em;
+      border-radius: 20px;
+      background: #fff;
+      color: #333;
+      border: 1px solid #ddd;
+    }
+
+    .flow-step {
+      background: #f3f4f6;
+      border-left: 6px solid #3b82f6;
+      padding: 20px 30px;
+      border-radius: 10px;
+      position: relative;
+      margin: 20px 0;
+    }
+
+    .flow-step strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 1.05em;
+    }
+
+    .legend {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .legend-color {
+      width: 20px;
+      height: 20px;
+      border-radius: 4px;
+    }
+
+    @media (max-width: 768px) {
+      .component { flex: 1 1 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎨 Pipeline de Datos - Plataforma de Cómics</h1>
+
+    <div class="pipeline">
+
+      <!-- Frontend -->
+      <div class="layer">
+        <div class="component frontend">
+          <div class="component-title">📱 Frontend (React)</div>
+          <div class="component-desc">
+            Interfaz de usuario para ver cómics, dar likes, buscar y subir contenido.
+          </div>
+        </div>
+      </div>
+
+      <!-- Backend -->
+      <div class="layer">
+        <div class="component backend">
+          <div class="component-title">🔧 Backend (.NET Core)</div>
+          <div class="component-desc">
+            API RESTful que recibe y valida acciones del usuario, sube archivos y envía eventos a Kafka.
+          </div>
+        </div>
+      </div>
+
+      <!-- Kafka -->
+      <div class="layer">
+        <div class="component kafka">
+          <div class="component-title">📨 Apache Kafka</div>
+          <div class="component-desc">
+            Mensajería distribuida para eventos. Cada acción genera un evento en un topic.
+          </div>
+          <div class="kafka-topics">
+            <div class="kafka-topic">Topic 1: Subida</div>
+            <div class="kafka-topic">Topic 2: Visualización</div>
+            <div class="kafka-topic">Topic 3: Likes</div>
+            <div class="kafka-topic">Topic 4: Búsquedas</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Spark -->
+      <div class="layer">
+        <div class="component spark">
+          <div class="component-title">⚡ Spark Streaming</div>
+          <div class="component-desc">
+            Procesamiento en tiempo real: conteos, rankings, clustering y generación de salidas estructuradas.
+          </div>
+        </div>
+      </div>
+
+      <!-- Almacenamiento + Busqueda -->
+      <div class="layer">
+        <div class="component storage">
+          <div class="component-title">🗄️ HDFS / PostgreSQL</div>
+          <div class="component-desc">
+            HDFS almacena imágenes y eventos históricos. PostgreSQL guarda resultados estructurados (batch).
+          </div>
+        </div>
+        <div class="component search">
+          <div class="component-title">🔍 Elasticsearch</div>
+          <div class="component-desc">
+            Motor de búsqueda para títulos, autores y etiquetas. Indexación automática desde Spark/API.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Flujo de datos -->
+    <div class="flow-step">
+      <strong>1. Acción del Usuario</strong>
+      Subir cómic, ver página, dar like o realizar búsqueda en el frontend.
+    </div>
+
+    <div class="flow-step">
+      <strong>2. Backend API</strong>
+      El backend recibe la acción y genera un evento que envía a Kafka.
+    </div>
+
+    <div class="flow-step">
+      <strong>3. Procesamiento en Spark</strong>
+      Spark Structured Streaming procesa los eventos en tiempo real.
+    </div>
+
+    <div class="flow-step">
+      <strong>4. Almacenamiento / Indexado</strong>
+      Imágenes a HDFS, resultados batch a PostgreSQL, búsqueda a Elasticsearch.
+    </div>
+
+    <div class="flow-step">
+      <strong>5. Consumo de resultados</strong>
+      El frontend accede a resultados procesados mediante la API o búsquedas.
+    </div>
+
+    <!-- Leyenda -->
+    <div class="legend">
+      <div class="legend-item">
+        <div class="legend-color" style="background: #3b82f6;"></div> Frontend
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background: #10b981;"></div> Backend
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background: #fbbf24;"></div> Kafka
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background: #ef4444;"></div> Spark
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background: #8b5cf6;"></div> Almacenamiento
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background: #ec4899;"></div> Elasticsearch
+      </div>
+    </div>
+  </div>
+</body>
+</html>
